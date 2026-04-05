@@ -1,0 +1,6 @@
+flask
+pandas
+numpy
+mysql-connector-python
+openpyxl
+werkzeug

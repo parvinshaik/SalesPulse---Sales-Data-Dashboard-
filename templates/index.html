@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SalesPulse — Sales Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --success: #16a34a;
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --muted: #64748b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* NAVBAR */
+  .navbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 40px;
+  }
+
+  .navbar-brand {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary) !important;
+    letter-spacing: -0.03em;
+  }
+
+  .nav-link {
+    color: var(--muted) !important;
+    font-weight: 500;
+    font-size: .9rem;
+  }
+  .nav-link:hover { color: var(--primary) !important; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #0891b2 100%);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: 16px;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    opacity: .8;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* UPLOAD CARD */
+  .upload-section { padding: 60px 0; }
+
+  .upload-card {
+    background: var(--surface);
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    padding: 60px 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .upload-card:hover, .upload-card.dragover {
+    border-color: var(--primary);
+    background: #eff6ff;
+  }
+
+  .upload-icon {
+    width: 72px;
+    height: 72px;
+    background: #eff6ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2rem;
+  }
+
+  .upload-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .upload-card p {
+    color: var(--muted);
+    font-size: .9rem;
+    margin-bottom: 24px;
+  }
+
+  .btn-upload {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 28px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: .95rem;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-upload:hover { background: var(--primary-dark); }
+
+  #fileInput { display: none; }
+
+  /* FORMAT TABLE */
+  .format-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 600px;
+    margin: 24px auto 0;
+  }
+
+  .format-card h5 {
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .col-badge {
+    display: inline-block;
+    background: #eff6ff;
+    color: var(--primary);
+    border: 1px solid #bfdbfe;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .8rem;
+    margin: 4px;
+  }
+
+  /* PROGRESS */
+  .upload-progress {
+    display: none;
+    max-width: 600px;
+    margin: 20px auto 0;
+  }
+
+  .alert-result {
+    display: none;
+    max-width: 600px;
+    margin: 16px auto 0;
+    border-radius: 12px;
+  }
+
+  /* FEATURES */
+  .features { padding: 60px 0; background: var(--surface); border-top: 1px solid var(--border); }
+
+  .feature-card {
+    text-align: center;
+    padding: 24px;
+  }
+
+  .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+  }
+
+  .feature-card h5 { font-weight: 700; margin-bottom: 8px; }
+  .feature-card p { color: var(--muted); font-size: .9rem; }
+
+  footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--muted);
+    font-size: .8rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+  <span class="navbar-brand">📊 SalesPulse</span>
+  <div class="ms-auto">
+    <a href="/dashboard" class="nav-link d-inline">Dashboard →</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <h1>Sales Data Dashboard</h1>
+    <p>Upload your sales CSV or Excel file and instantly get powerful analytics and visualizations.</p>
+  </div>
+</section>
+
+<!-- Upload -->
+<section class="upload-section">
+  <div class="container">
+    <div class="upload-card" id="dropZone" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-icon">📁</div>
+      <h3>Drop your file here</h3>
+      <p>Supports CSV, XLSX, XLS files up to 16MB</p>
+      <button class="btn-upload" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">
+        Choose File
+      </button>
+      <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" onchange="uploadFile(this.files[0])"/>
+    </div>
+
+    <div class="upload-progress" id="progressBox">
+      <div class="progress" style="height:8px; border-radius:8px;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" style="width:100%"></div>
+      </div>
+      <p class="text-center text-muted mt-2" style="font-size:.85rem;">Processing your data with Pandas...</p>
+    </div>
+
+    <div class="alert alert-success alert-result" id="successAlert">
+      ✅ <strong>Data uploaded successfully!</strong> <a href="/dashboard" class="alert-link">View Dashboard →</a>
+    </div>
+    <div class="alert alert-danger alert-result" id="errorAlert"></div>
+
+    <!-- Format guide -->
+    <div class="format-card">
+      <h5>📋 Required CSV/Excel Columns</h5>
+      <div>
+        <span class="col-badge">date</span>
+        <span class="col-badge">product</span>
+        <span class="col-badge">category</span>
+        <span class="col-badge">quantity</span>
+        <span class="col-badge">price</span>
+        <span class="col-badge">region</span>
+      </div>
+      <!-- <p class="mt-3 mb-0" style="color:var(--muted);font-size:.85rem;">
+        💡 A <strong>sample_data.csv</strong> file is included in the project folder to test with.
+      </p> -->
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="features">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3"><div class="feature-card"><div class="feature-icon">📈</div><h5>Revenue Trends</h5><p>Monthly and daily revenue line charts</p></div></div>
+      <div class="col-md-3"><div class="feature-card"><div class="feature-icon">🥧</div><h5>Category Breakdown</h5><p>Revenue split by product category</p></div></div>
+      <div class="col-md-3"><div class="feature-card"><div class="feature-icon">🌍</div><h5>Region Analysis</h5><p>Sales performance by region</p></div></div>
+      <div class="col-md-3"><div class="feature-card"><div class="feature-icon">🏆</div><h5>Top Products</h5><p>Best performing products by revenue</p></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>Designed & Developed by Parvin · SalesPulse Analytics Dashboard</footer>
+
+<script>
+  const dropZone = document.getElementById('dropZone');
+
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    uploadFile(e.dataTransfer.files[0]);
+  });
+
+  async function uploadFile(file) {
+    if (!file) return;
+
+    document.getElementById('progressBox').style.display = 'block';
+    document.getElementById('successAlert').style.display = 'none';
+    document.getElementById('errorAlert').style.display = 'none';
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res  = await fetch('/upload', { method: 'POST', body: formData });
+      const data = await res.json();
+
+      document.getElementById('progressBox').style.display = 'none';
+
+      if (data.success) {
+        const a = document.getElementById('successAlert');
+        a.innerHTML = `✅ <strong>${data.rows} rows loaded successfully!</strong> <a href="/dashboard" class="alert-link">View Dashboard →</a>`;
+        a.style.display = 'block';
+      } else {
+        const a = document.getElementById('errorAlert');
+        a.textContent = '❌ ' + data.error;
+        a.style.display = 'block';
+      }
+    } catch (err) {
+      document.getElementById('progressBox').style.display = 'none';
+      const a = document.getElementById('errorAlert');
+      a.textContent = '❌ Upload failed. Please try again.';
+      a.style.display = 'block';
+    }
+  }
+</script>
+</body>
+</html>
