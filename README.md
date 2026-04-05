@@ -100,13 +100,4 @@ Your CSV/Excel file must have these columns:
 | price      | 75000          |
 | region     | North          |
 
----
-
-## 🐛 Common Errors
-
-| Error | Fix |
-|-------|-----|
-| `ModuleNotFoundError` | Run `pip install -r requirements.txt` |
-| `Access denied` | Fix MySQL password in `app.py` |
-| `Missing columns` | Check your CSV has all 6 required columns |
-| Port in use | Change `app.run(port=5001)` in `app.py` |
+-
